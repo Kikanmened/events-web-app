@@ -7,9 +7,19 @@ function SignUpPage() {
   const [error, setError] = useState('')
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+  event.preventDefault()
 
-    setError('')
+  setError('')
+
+  if (!email.trim()) {
+    setError('Email is required.')
+    return
+  }
+
+  if (password.length < 8) {
+    setError('Password must be at least 8 characters.')
+    return
+  }
 
     try {
       const user = await registerUser({
