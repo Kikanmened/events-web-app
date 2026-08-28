@@ -1,16 +1,27 @@
-import {useState} from 'react'
-
+import { useState } from 'react'
+import { registerUser } from '../services/api'
 
 function SignUpPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
-  const [email,setEmail]=useState('')
-  const [password,setPassword] =useState('')
+  const handleSubmit = async (event) => {
+    event.preventDefault()
 
-const handleSubmit=(event) => {
-  event.preventDefault()
+    setError('')
 
-  
-}
+    try {
+      const user = await registerUser({
+        email,
+        password,
+      })
+
+      
+    } catch (error) {
+      setError(error.message)
+    }
+  }
 
   return (
     <div className="mx-auto w-full max-w-md px-6 py-12">
@@ -26,6 +37,12 @@ const handleSubmit=(event) => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {error && (
+            <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </p>
+          )}
+
           <div>
             <label
               htmlFor="email"
@@ -58,7 +75,7 @@ const handleSubmit=(event) => {
               name="password"
               type="password"
               value={password}
-              onChange={(event)=> setPassword(event.target.value)}
+              onChange={(event) => setPassword(event.target.value)}
               placeholder="At least 8 characters"
               className="w-full rounded-lg border border-slate-300 px-4 py-2.5 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
             />
