@@ -5,6 +5,7 @@ function SignUpPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (event) => {
   event.preventDefault()
@@ -21,17 +22,19 @@ function SignUpPage() {
     return
   }
 
-    try {
-      const user = await registerUser({
-        email,
-        password,
-      })
+  setIsLoading(true)
 
-      
-    } catch (error) {
-      setError(error.message)
-    }
+  try {
+    await registerUser({
+      email,
+      password,
+    })
+  } catch (error) {
+    setError(error.message)
+  } finally {
+    setIsLoading(false)
   }
+}
 
   return (
     <div className="mx-auto w-full max-w-md px-6 py-12">
@@ -91,12 +94,13 @@ function SignUpPage() {
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-slate-900 px-4 py-2.5 font-medium text-white transition hover:bg-slate-800"
-          >
-            Sign up
-          </button>
+         <button
+  type="submit"
+  disabled={isLoading}
+  className="w-full rounded-lg bg-slate-900 px-4 py-2.5 font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+>
+  {isLoading ? 'Creating account...' : 'Sign up'}
+</button>
         </form>
       </div>
     </div>
