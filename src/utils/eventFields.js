@@ -28,7 +28,7 @@ export function sortEventsByDate(events) {
     const dateB = Date.parse(getEventDate(b))
     const validA = Number.isNaN(dateA) ? Number.POSITIVE_INFINITY : dateA
     const validB = Number.isNaN(dateB) ? Number.POSITIVE_INFINITY : dateB
-    return validA - validB
+    return validB - validA
   })
 }
 
