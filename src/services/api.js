@@ -69,3 +69,35 @@ export const getProfile = async () => {
 
   return data
 }
+
+export const createEvent = async ({
+  title,
+  description,
+  date,
+  location,
+  latitude,
+  longitude,
+}) => {
+  const response = await authenticatedFetch(`${API_URL}/api/events`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+      description,
+      date,
+      location,
+      latitude,
+      longitude,
+    }),
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Failed to create event')
+  }
+
+  return data
+}
