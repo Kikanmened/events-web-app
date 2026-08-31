@@ -12,6 +12,10 @@ function unwrapEvents(payload) {
   if (Array.isArray(payload?.data)) {
     return payload.data
   }
+  
+  if (Array.isArray(payload?.results)) {
+    return payload.results
+  }
 
   throw new Error('Events API returned an unexpected response.')
 }
